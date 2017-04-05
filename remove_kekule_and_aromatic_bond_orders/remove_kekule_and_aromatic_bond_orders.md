@@ -19,7 +19,7 @@ The main problem is simply that Kekule bond orders are not distinct from 'real' 
 
 ### The problem with bond order of 5 for aromaticity
 
-First of all, what if there is a bond of order 5? Second, there's no need as all bonds are Kekulized by the reader. Information on aromaticity of bonds is available via IsAromatic(). At this point it's not clear to me whether the value of '5' is ever set anywhere. What I do know is that the BOSum() method treats the value of '5' as special instead of just totting up the bond orders.
+First of all, what if there is a bond of order 5? Second, why is this even needed? All bonds are Kekulized by the reader and information on aromaticity of bonds is available via IsAromatic() (stored via a flag). At this point it's not clear to me whether the value of '5' is ever set anywhere. What I do know is that the BOSum() method treats the value of '5' as special instead of just totting up the bond orders.
 
 ## Pros and Cons
 
