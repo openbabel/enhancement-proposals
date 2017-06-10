@@ -16,7 +16,7 @@ The fact that something is a radical does not need to be stored explicitly. Inst
 
 For example [CH3] is one under-valent, and so is a radical. [CH2] is two under-valent, and so is a diradical.
 
-A function OBAtomGetUnderValence(OBAtom*) can return this value. This will be done based on the code in 'GetTypicalValence'.
+A function OBAtomNumRadicalElectrons(OBAtom*) can return this value. This will be done based on the code in 'GetTypicalValence'.
 
 ### Spin state
 
