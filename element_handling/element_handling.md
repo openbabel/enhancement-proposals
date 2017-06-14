@@ -18,25 +18,25 @@ The existing OBElement (used as a container class for element related informatio
 
 ### Performance issues
 
-Consider OBElementTable::GetAtomicNum(string name, int &iso). Just from this prototype, we can already see that the supplied name is copied. Then a case insensitive match is done to the first 3 characters of everything in the element table. One at a time. Then it's compared to the English names of the elements. Then D or Deuterium, T or Tritium, then Hl (yup, a little surprise for us all there), and then '*'. If the name is actually '*', then that's over 200 string comparisons. But even for 'C', there is more work done than necessary.
+Consider OBElementTable::GetAtomicNum(string name, int &iso). Just from this prototype, we can already see that the supplied name is copied. Then a case insensitive match is done to the first 3 characters of everything in the element table. One at a time. Then it's compared to the English names of the elements. Then D or Deuterium, T or Tritium, then Hl (yup, a little surprise for us all there), and then '\*'. If the name is actually '\*', then that's over 200 string comparisons. But even for 'C', there is more work done than necessary.
 
-The other functions aren't so bad, e.g. GetSymbol() is an array lookup. But if the array was compiled-in, this would be more efficient and also would avoid the overhead of function calls on the OBElement object.
+The other functions aren't so bad, e.g. GetSymbol() is an array lookup. But it's not an array lookup to the symbol, but rather to an OBElement object, where we can call GetName() and get a copy. But if the array was compiled-in, this would be more efficient - for example, as well as avoiding the overhead of function calls, we could return the compiled-in const char* directly (i.e. no string copy required).
 
 ### Implementation
 
 The current implementation reads data from a file at runtime, and uses an instance of a global object. The new implementation will instead compile everything in. For example, GetAtomicNum() will use a switch statement on the characters, similar to that already used in the SMILES parser. GetSymbol() will do an array lookup.
 
-For convenience, the data used to generate the arrays will be a file similar to elements.txt, but it will be a header file. Using a multiple include trick, this will be read into arrays in the source code at compile time. (I think this is possible.)
+For convenience, the data used to generate the arrays will be a file similar to elements.txt, but it will be a header file. Using a multiple include trick, this will be read into arrays in the source code at compile time. (Or that is the plan.)
 
 ## Pros and Cons
 
 Pros associated with this implementation include:
 * Better performance
 * A leaner codebase
-* No need for elements.txt/elements.h in the data directory
+* No need for elements.txt/elements.h in the data directory or a global element table object
 
 Cons associated with this implementation include:
-* It may be a somewhat more difficult to add a new element, though I don't expect it to be too bad
+* It may be a tad more difficult to add a new element, though I don't expect it to be too bad.
 
 ## Interested Contributors
 @baoilleach
