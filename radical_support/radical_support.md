@@ -20,13 +20,15 @@ A function OBAtomNumRadicalElectrons(OBAtom*) can return this value. This will b
 
 ### Spin state
 
-I propose a function OBAtom::SetSpinState(enum UNKNOWN/PAIRED/UNPAIRED) to distinguish between the high and low spin versions of diradicals (and higher radicals).
+I propose a function OBAtom::SetSpinState(int) to distinguish between unknown (0), and increasing levels of spin.
 
-I do not want to use the word 'multiplicity' or the enum SINGLET/DOUBLET etc here as it may lead the user to conclude that this function is required to indicate something is a radical. That is not the case. It is only to distinguish between singlets and triplets, doublets and quadruplets, or to indicate that that information is not known.
+If a single spin state is possible (e.g. a single radical electron, doublet state), then only a value of 1 makes sense. If two states are possible (e.g. two unpaired electrons with multiplicity 1 or 3, or three unpaired electrons with multiplicity 2 or 4) then values of 1 and 2 make sense. Note that the function itself will not do any chemical correctness checking (except for maximum allowed value) but a format writer should.
 
-The UNKNOWN value is important as this information is not present in SMILES strings for example and we should not infer it. Only if known, should we indicate the multiplicity in a MOL file. We should however provide ops (e.g. --singlet/--triplet) to set the multiplicity if undefined for all diradicals in a molecule (note to self: avoid confusion with singlet/triplet for the molecule itself).
+I do not want to use the word 'multiplicity' here as it may lead the user to conclude that this function is required to indicate something is a radical. That is not the case. It is only to distinguish between singlets and triplets, doublets and quadruplets, or to indicate that that information is not known.
 
-This information will be stored using two bits in the atom flags.
+The UNKNOWN value (0) is important as this information is not present in SMILES strings for example and we should not infer it. Only if known, should we indicate the multiplicity in a MOL file. We should however provide ops (e.g. --singlet/--triplet) to set the multiplicity if undefined for all diradicals in a molecule (note to self: avoid confusion with singlet/triplet for the molecule itself).
+
+This information will be stored using three bits in the atom flags. This will allow values from 0 to 5.
 
 ## Pros and Cons
 
@@ -39,4 +41,3 @@ Cons associated with this implementation include:
 
 ## Interested Contributors
 @baoilleach
-
