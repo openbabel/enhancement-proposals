@@ -14,7 +14,7 @@ I propose to change the stereo API so that it is possible to avoid perceiving st
 
 Reading SMILES should be very fast. This is not the case currently for Open Babel, which has a knock-on impact on using Open Babel for handling large SMILES files and leads to discussion of workarounds such as serialisation formats for OBMol.
 
-One of the last easy wins in speeding up SMILES reading (and also MOL) is to eliminate the perception of stereo and just set it as present in the file format. While this means that we will not longer eliminate impossible stereo by default, e.g. [C@@](C)(C)(C)(C), it means that we no longer slow down the general case in order to correct stereo for rare cases.
+One of the last easy wins in speeding up SMILES reading (and also MOL) is to eliminate the perception of stereo and just set it as present in the file format. While this means that we will not longer eliminate impossible stereo by default, e.g. ```[C@@](C)(C)(C)(C)```, it means that we no longer slow down the general case in order to correct stereo for rare cases.
 
 For those wishing to do this, perhaps as part of a structure cleanup, the option will still be provided, perhaps as a general op "--cleanstereo", or as an option for the format reader.
 
